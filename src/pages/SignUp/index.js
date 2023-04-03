@@ -1,12 +1,23 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import logo from '../../assets/logo.png';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../contexts/auth'
 
 export default function SignUp() {
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setpassword] = useState('');
+
+    const { registerNewUser, loadingAuth } = useContext(AuthContext);
+
+    async function handleSubmit(e) {
+        e.preventDefault();
+
+        if(name !== '' && email !== '' && password !== '') {
+           await registerNewUser(email, password, name)
+        }
+    }
 
     return(
         <div className='container-center'>
@@ -15,7 +26,7 @@ export default function SignUp() {
                     <img src={logo} alt="Logo de sistema de chamados"/>
                 </div>
 
-                <form>
+                <form onSubmit={handleSubmit}>
                     <h1>Cadastrar Conta</h1>
 
                     <input 
@@ -23,6 +34,7 @@ export default function SignUp() {
                         placeholder='Nome Completo' 
                         value={name}
                         onChange={(e) => setName(e.target.value)}
+                        required={true}
                     />
 
                     <input 
@@ -30,15 +42,19 @@ export default function SignUp() {
                         placeholder='email@email.com' 
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        required={true}
                     />
 
                     <input 
                         type="password" 
                         value={password}
                         onChange={(e) => setpassword(e.target.value)}
+                        required={true}
                     />
                     
-                    <button type="submit" >Acessar</button>
+                    <button type="submit">
+                        {loadingAuth ? 'Carregando...' : 'Cadastrar'}
+                    </button>
                 </form>
 
                 <Link to="/">Já possui uma conta? Faça login</Link>
