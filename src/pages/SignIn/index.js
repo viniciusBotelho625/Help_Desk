@@ -32,14 +32,14 @@ export default function SignIn() {
                         placeholder='email@email.com' 
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        required="true"
+                        required={true}
                     />
 
                     <input 
                         type="password" 
                         value={password}
                         onChange={(e) => setpassword(e.target.value)}
-                        required="true"
+                        required={true}
                     />
                     
                     <button type="submit">
